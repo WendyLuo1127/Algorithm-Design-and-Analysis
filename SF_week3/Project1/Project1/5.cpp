@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <vector>
 #include <algorithm>
 using namespace std;
@@ -8,11 +8,11 @@ int main() {
     int x;
     while (cin >> x) {
         s.push_back(x);
-        if (cin.peek() == '\n') break; // Ò»ĞĞ¶ÁÍê
+        if (cin.peek() == '\n') break; // ä¸€è¡Œè¯»å®Œ
     }
 
     sort(s.begin(), s.end());
-    int mid = s[s.size() / 2];  // ÏÂÖĞÎ»Êı
+    int mid = s[s.size() / 2];  // ä¸‹ä¸­ä½æ•°
     cout << mid << endl;
 
     return 0;

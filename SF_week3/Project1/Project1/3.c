@@ -1,70 +1,48 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+unordered_map<long long, long long> memo;//记忆
 
-// 计算 S(n) 的长度，即 2^(n+1) - 1
-long long get_length(long long n) {
-    return (1LL << (n + 1)) - 1;
+//找出pos属于S(k)
+long long get_k(long long pos) {
+    if (pos == 0) return 0;
+    int leading_zeros = __builtin_clzll(pos);
+    long long k = 64 - leading_zeros;
+    if ((1LL << k) - 1 < pos) {
+        k++;
+    }
+    return k;
 }
 
-// 获取 S(n) 中位置 pos 的字符
-char get_char(long long n, long long pos) {
-    if (n == 0) {
-        return 'S'; // S(0) 只包含一个 S
+//返回S(K)的前pos位中有多少个s
+long long count(long long pos) {
+    if (pos == 0) return 0;
+    if (memo.count(pos)) return memo[pos];
+    long long k = get_k(pos);
+    long long len_prev = (1LL << (k - 1)) - 1;
+    if (pos <= len_prev) {
+        return memo[pos] = count(pos);
     }
-
-    long long len = get_length(n); // S(n) 的长度
-    long long mid = len / 2 + 1;   // S(n) 的中间位置
-
-    if (pos <= mid - 1) {
-        return get_char(n - 1, pos);  // 在 S(n-1) 的左半部分
-    }
-    else if (pos == mid) {
-        return 'S';  // 中间的 S
+    else if (pos == len_prev + 1) {
+        return memo[pos] = count(len_prev) + 1;
     }
     else {
-        long long right_pos = len - pos + 1;  // 计算在反转的右半部分的对应位置
-        return (get_char(n - 1, right_pos) == 'S') ? 'D' : 'S';  // 反转后的右半部分
+        long long x = pos - (len_prev + 1);
+        return memo[pos] = 1 + x + count(len_prev - x);
     }
-}
-
-// 计算区间 [L, R] 内的 'S' 数量
-long long count_S(long long n, long long L, long long R) {
-    long long count = 0;
-    for (long long i = L; i <= R; i++) {
-        if (get_char(n, i) == 'S') {
-            count++;
-        }
-    }
-    return count;
-}
-
-// 查找最大的 n，使得 S(n) 的长度大于等于 R
-long long find_n(long long R) {
-    long long low = 0, high = 60, best = 0;
-    while (low <= high) {
-        long long mid = (low + high) / 2;
-        if (get_length(mid) >= R) {
-            best = mid;
-            low = mid + 1;
-        }
-        else {
-            high = mid - 1;
-        }
-    }
-    return best;
 }
 
 int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
     int T;
-    scanf("%d", &T);
-
-    for (int i = 0; i < T; i++) {
+    cin >> T;
+    // 多组区间询问
+    while (T--) {
         long long L, R;
-        scanf("%lld %lld", &L, &R);
-
-        long long n = find_n(R); // 找到最大的 n，使得 S(n) 的长度大于等于 R
-        printf("%lld\n", count_S(n, L, R)); // 输出区间 [L, R] 中的 S 的数量
+        cin >> L >> R;
+        long long ans = count(R) - (L > 1 ? count(L - 1) : 0);
+        cout << ans << '\n';
     }
-
     return 0;
 }

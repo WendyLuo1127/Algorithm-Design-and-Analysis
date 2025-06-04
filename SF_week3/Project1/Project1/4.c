@@ -1,34 +1,30 @@
+//设计两个状态：
+//dp[n][0]: 长度为 n 的排列，首尾不相同
+//dp[n][1]: 长度为 n 的排列，首尾相同
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
 #define MAX_N 50
 
-// 存储预处理结果的数组
-long long ans[MAX_N + 1];
+long long dp[MAX_N + 1][2];
 
-// 预处理所有可能的结果
 void preprocess() {
-    ans[1] = 3;  // 当 n = 1 时，直接返回 3
-    long long prev0 = 0, prev1 = 3;  // 分别对应 dp[1][0] 和 dp[1][1]
+    dp[1][0] = 3;  // 首尾不同
+    dp[1][1] = 0;  // 首尾相同不可能
 
-    for (int k = 2; k <= MAX_N; k++) {
-        long long curr0 = prev0 * 1 + prev1 * 2;
-        long long curr1 = prev0 * 1;
-        ans[k] = curr0;
-        prev0 = curr0;
-        prev1 = curr1;
+    for (int i = 2; i <= MAX_N; ++i) {
+        dp[i][0] = dp[i - 1][0] * 1 + dp[i - 1][1] * 2; //首尾不同
+        dp[i][1] = dp[i - 1][0] * 1; //首尾相同
     }
 }
 
 int main() {
     int n;
-
-    // 预处理结果
     preprocess();
 
-    // 读取输入并输出结果
     while (scanf("%d", &n) == 1) {
-        printf("%lld\n", ans[n]);
+        printf("%lld\n", dp[n][0]);
     }
 
     return 0;

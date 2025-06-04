@@ -1,57 +1,34 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <vector>
 #include <sstream>
-#include <string>
-
 using namespace std;
 
-// ÅĞ¶ÏÊÇ·ñ¿ÉÒÔ½«Êı×é·Ö³ÉÁ½¸öºÍÏàµÈµÄ×Ó¼¯
 bool canPartition(vector<int>& nums) {
     int sum = 0;
-    // ¼ÆËãÊı×éÖĞËùÓĞÔªËØµÄ×ÜºÍ
-    for (int num : nums) {
-        sum += num;
-    }
-    // Èç¹û×ÜºÍÊÇÆæÊı£¬ÎŞ·¨·Ö³ÉÁ½¸öºÍÏàµÈµÄ×Ó¼¯
-    if (sum % 2 != 0) {
-        return false;
-    }
+    for (int num : nums) sum += num;
+    if (sum % 2 != 0) return false;
+
     int target = sum / 2;
-    int n = nums.size();
-    // ´´½¨Ò»¸ö¶şÎ¬²¼¶ûÊı×é dp£¬dp[i][j] ±íÊ¾Ç° i ¸öÔªËØÊÇ·ñ¿ÉÒÔ×é³ÉºÍÎª j
-    vector<vector<bool>> dp(n + 1, vector<bool>(target + 1, false));
-    // ³õÊ¼»¯£ºÇ° 0 ¸öÔªËØ¿ÉÒÔ×é³ÉºÍÎª 0 µÄ×Ó¼¯
-    dp[0][0] = true;
-    // ¶¯Ì¬¹æ»®Ìî³ä dp Êı×é
-    for (int i = 1; i <= n; ++i) {
-        for (int j = 0; j <= target; ++j) {
-            // ²»Ñ¡ÔñµÚ i ¸öÔªËØ
-            dp[i][j] = dp[i - 1][j];
-            if (j >= nums[i - 1]) {
-                // Ñ¡ÔñµÚ i ¸öÔªËØ
-                dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
-            }
+    vector<bool> dp(target + 1, false);
+    dp[0] = true; // å’Œä¸º 0 æ€»æ˜¯å¯ä»¥å®ç°çš„ï¼ˆä¸é€‰ä»»ä½•å…ƒç´ ï¼‰
+
+    for (int num : nums) {
+        for (int j = target; j >= num; --j) {
+            dp[j] = dp[j] || dp[j - num];
         }
     }
-    return dp[n][target];
+
+    return dp[target];
 }
 
 int main() {
-    string input;
-    getline(cin, input);
-    istringstream iss(input);
+    string line;
+    getline(cin, line);
+    istringstream iss(line);
     vector<int> nums;
-    int num;
-    // ´ÓÊäÈë×Ö·û´®ÖĞÌáÈ¡ÕûÊı²¢´æ´¢µ½Êı×éÖĞ
-    while (iss >> num) {
-        nums.push_back(num);
-    }
-    // µ÷ÓÃ canPartition º¯ÊıÅĞ¶ÏÊÇ·ñ¿ÉÒÔ·Ö¸î
-    if (canPartition(nums)) {
-        cout << "true" << endl;
-    }
-    else {
-        cout << "false" << endl;
-    }
+    int x;
+    while (iss >> x) nums.push_back(x);
+
+    cout << (canPartition(nums) ? "true" : "false") << endl;
     return 0;
 }

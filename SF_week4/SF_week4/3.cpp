@@ -1,10 +1,10 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <vector>
 #include <sstream>
 #include <algorithm>
 using namespace std;
 
-// ¼ÆËã×î´ó×ÓÊı×éºÍµÄº¯Êı
+// è®¡ç®—æœ€å¤§å­æ•°ç»„å’Œçš„å‡½æ•°
 int maxSubArray(vector<int>& nums) {
     if (nums.empty()) {
         return 0;
@@ -12,6 +12,7 @@ int maxSubArray(vector<int>& nums) {
     int maxSum = nums[0];
     int currentSum = nums[0];
     for (size_t i = 1; i < nums.size(); ++i) {
+        // å¦‚æœå½“å‰å’Œå˜å°äº†ï¼ˆå¦‚åŠ äº†ä¸€ä¸ªè´Ÿæ•°ï¼‰ï¼Œå°±è¦ä»å½“å‰ä½ç½®é‡æ–°å¼€å§‹ï¼Œå¦åˆ™ç»§ç»­
         currentSum = max(nums[i], currentSum + nums[i]);
         maxSum = max(maxSum, currentSum);
     }
@@ -21,22 +22,22 @@ int maxSubArray(vector<int>& nums) {
 int main() {
     string line;
     vector<int> nums;
-    // ¶ÁÈ¡ÕûĞĞÊäÈë
+    // è¯»å–æ•´è¡Œè¾“å…¥
     getline(cin, line);
 
     istringstream iss(line);
     int num;
-    // ´ÓÊäÈëĞĞÖĞ½âÎö³ö¸÷¸öÕûÊı
+    // ä»è¾“å…¥è¡Œä¸­è§£æå‡ºå„ä¸ªæ•´æ•°
     while (iss >> num) {
         nums.push_back(num);
     }
 
     if (!nums.empty()) {
-        // ¼ÆËã²¢Êä³ö×î´ó×ÓÊı×éºÍ
+        // è®¡ç®—å¹¶è¾“å‡ºæœ€å¤§å­æ•°ç»„å’Œ
         cout <<  maxSubArray(nums) << endl;
     }
     else {
-        cout << "Ã»ÓĞÊäÈëÓĞĞ§µÄÊı×éÔªËØ¡£" << endl;
+        cout << "æ²¡æœ‰è¾“å…¥æœ‰æ•ˆçš„æ•°ç»„å…ƒç´ ã€‚" << endl;
     }
 
     return 0;

@@ -1,11 +1,11 @@
-//Á¬ÕĞË³Ğò
+ï»¿//è¿æ‹›é¡ºåº
 #include <iostream>
 #include <vector>
 #include <string>
 #include <algorithm>
 using namespace std;
 
-// ¼ÆËãÁ½¸öÊıµÄÔËËã½á¹û
+// è®¡ç®—ä¸¤ä¸ªæ•°çš„è¿ç®—ç»“æœ
 int calculate(int left, int right, char c)
 {
     if (c == '+')
@@ -23,7 +23,7 @@ int calculate(int left, int right, char c)
     return 0;
 }
 
-// ·ÖÖÎ¼ÆËãËùÓĞ¿ÉÄÜµÄ½á¹û
+// åˆ†æ²»è®¡ç®—æ‰€æœ‰å¯èƒ½çš„ç»“æœ
 vector<int> Compute(string s)
 {
     vector<int> result;
@@ -33,13 +33,13 @@ vector<int> Compute(string s)
         char c = s[i];
         if (c == '+' || c == '-' || c == '*')
         {
-            // ·Ö¸î×Ö·û´®Îª×óÓÒÁ½²¿·Ö
+            // åˆ†å‰²å­—ç¬¦ä¸²ä¸ºå·¦å³ä¸¤éƒ¨åˆ†
             string lefts = s.substr(0, i);
             string rights = s.substr(i + 1);
-            // µİ¹é¼ÆËã×óÓÒÁ½²¿·ÖµÄËùÓĞ¿ÉÄÜ½á¹û
+            // é€’å½’è®¡ç®—å·¦å³ä¸¤éƒ¨åˆ†çš„æ‰€æœ‰å¯èƒ½ç»“æœ
             vector<int> leftresult = Compute(lefts);
             vector<int> rightresult = Compute(rights);
-            // ×éºÏ×óÓÒÁ½²¿·ÖµÄ½á¹û
+            // ç»„åˆå·¦å³ä¸¤éƒ¨åˆ†çš„ç»“æœ
             for (int left : leftresult)
             {
                 for (int right : rightresult)
@@ -50,7 +50,7 @@ vector<int> Compute(string s)
         }
     }
 
-    // ´¦Àí´¿Êı×Ö×Ö·û´®µÄÇé¿ö
+    // å¤„ç†çº¯æ•°å­—å­—ç¬¦ä¸²çš„æƒ…å†µ
     if (result.empty()) {
         result.push_back(stoi(s));
     }
@@ -61,11 +61,11 @@ vector<int> Compute(string s)
 int main() {
     string s;
     cin >> s;
-    // ¼ÆËãËùÓĞ¿ÉÄÜµÄ½á¹û
+    // è®¡ç®—æ‰€æœ‰å¯èƒ½çš„ç»“æœ
     vector<int> result = Compute(s);
-    // ¶Ô½á¹û½øĞĞÅÅĞò
+    // å¯¹ç»“æœè¿›è¡Œæ’åº
     sort(result.begin(), result.end());
-    // °´ÒªÇóÊä³ö½á¹û£¬Ã¿¸ö½á¹ûÕ¼Ò»ĞĞ
+    // æŒ‰è¦æ±‚è¾“å‡ºç»“æœï¼Œæ¯ä¸ªç»“æœå ä¸€è¡Œ
     for (int i = 0; i < result.size(); i++)
     {
         cout << result[i] << endl;

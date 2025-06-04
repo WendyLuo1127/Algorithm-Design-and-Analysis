@@ -1,49 +1,52 @@
-#include<iostream>
-#include<vector>
-#include<algorithm>
+ï»¿#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-#define MaxK 16
 
-int k;  // Íæ¼ÒÊıÁ¿
-vector<vector<int>> scores;  // µÃ·Ö¾ØÕó
-vector<bool> visited;  // ±ê¼ÇÎ»ÖÃÊÇ·ñÒÑ±»·ÖÅä
-int max_score = 0;  // ×î´óµÃ·Ö
+int k;
+vector<vector<int>> skill;  // ç†Ÿç»ƒåº¦çŸ©é˜µ
+int maxScore = 0;
+vector<int> maxInCol;       // æ¯åˆ—æœ€å¤§å€¼ï¼Œç”¨äºä¼°ä»·å‡½æ•°
 
-void branch_bound(int player, int current_score) {
-	if (player == k) {
-		// ËùÓĞÍæ¼ÒÒÑ·ÖÅä£¬¸üĞÂ×î´óµÃ·Ö
-		max_score = max(max_score, current_score);
-		return;
-	}
+// dfs + å‰ªæ
+void dfs(int player, int currentScore, vector<bool>& visited) {
+    if (player == k) {
+        maxScore = max(maxScore, currentScore);
+        return;
+    }
 
-	// ¶ÔÃ¿¸öÎ»ÖÃ½øĞĞ³¢ÊÔ
-	for (int i = 0; i < k; ++i) {
-		if (!visited[i]) {  // Èç¹ûÎ»ÖÃiÃ»ÓĞ±»·ÖÅä
-			visited[i] = true;  // ±ê¼ÇÎ»ÖÃiÎªÒÑ·ÖÅä
-			branch_bound(player + 1, current_score + scores[player][i]);  // ·ÖÅäµÚplayer¸öÍæ¼Òµ½Î»ÖÃi
-			visited[i] = false;  // »ØËİ£¬³·ÏúÑ¡Ôñ
-		}
-	}
+    // ä¹è§‚ä¼°è®¡ï¼šå½“å‰åˆ†æ•° + å‰©ä¸‹æ‰€æœ‰åˆ—æœ€å¤§å€¼ä¹‹å’Œ
+    int optimistic = currentScore;
+    for (int i = player; i < k; i++) {
+        optimistic += maxInCol[i];
+    }
+    if (optimistic <= maxScore) return;  // å‰ªæ1ï¼šæ— æ³•è¶…è¶Šå·²æœ‰æœ€ä¼˜è§£
+
+    for (int pos = 0; pos < k; pos++) {
+        if (!visited[pos]) {
+            visited[pos] = true;
+            dfs(player + 1, currentScore + skill[player][pos], visited);
+            visited[pos] = false;
+        }
+    }
 }
 
-
 int main() {
-	cin >> k;
+    cin >> k;
+    skill.assign(k, vector<int>(k));
+    maxInCol.assign(k, 0);
 
-	scores.resize(k, vector<int>(k));
-	visited.resize(k, false);
+    // è¯»å–ç†Ÿç»ƒåº¦çŸ©é˜µ
+    for (int i = 0; i < k; ++i) {
+        for (int j = 0; j < k; ++j) {
+            cin >> skill[i][j];
+            maxInCol[j] = max(maxInCol[j], skill[i][j]);  // æå‰è®¡ç®—æ¯åˆ—æœ€å¤§å€¼
+        }
+    }
 
-	// ÊäÈëµÃ·Ö¾ØÕó
-	for (int i = 0; i < k; ++i) {
-		for (int j = 0; j < k; ++j) {
-			cin >> scores[i][j];
-		}
-	}
+    vector<bool> visited(k, false);
+    dfs(0, 0, visited);
 
-	// ´ÓµÚ0¸öÍæ¼Ò¿ªÊ¼½øĞĞ·ÖÅä
-	branch_bound(0, 0);
-
-	// Êä³ö×î´óµÃ·Ö
-	cout << max_score << endl;
-	return 0;
+    cout << maxScore << endl;
+    return 0;
 }

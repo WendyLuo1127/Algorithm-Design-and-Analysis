@@ -1,32 +1,32 @@
-//Âå¹È P1120 Ğ¡Ä¾¹÷
+ï»¿//æ´›è°· P1120 å°æœ¨æ£
 
 #include<iostream>
 #include<vector>
 #include<algorithm>
 using namespace std;
 
-vector<int>l;//Ä¾°ô³¤¶È
-vector<bool>usd;//ÊÇ·ñÊ¹ÓÃ¹ı
+vector<int>l;//æœ¨æ£’é•¿åº¦
+vector<bool>usd;//æ˜¯å¦ä½¿ç”¨è¿‡
 int sum = 0;
 int maxL = 0;
 int n;
 
-//stickCount: »¹ĞèÆ´¶àÉÙ¸ùÍêÕûÄ¾¹÷
-// currLen: µ±Ç°Ä¾¹÷ÒÑÆ´µÄ³¤¶È
-// idx : ËÑË÷ÆğÊ¼Î»ÖÃ£¬±ÜÃâÖØ¸´×éºÏ
-// target : Ã¿¸ùÄ¾¹÷Ä¿±ê³¤¶È = L
+// stickCount: è¿˜éœ€æ‹¼å¤šå°‘æ ¹å®Œæ•´æœ¨æ£
+// currLen: å½“å‰æœ¨æ£å·²æ‹¼çš„é•¿åº¦
+// idx : æœç´¢èµ·å§‹ä½ç½®ï¼Œé¿å…é‡å¤ç»„åˆ
+// target : æ¯æ ¹æœ¨æ£ç›®æ ‡é•¿åº¦ = L
 bool dfs(int stickCount,int currLen,int idx,int target) {
-	if (stickCount == 0)return true; // ËùÓĞÄ¾°ô¶¼×éºÏÍê±Ï
-	if (currLen == target)return dfs(stickCount - 1, 0, 0, target); // ×éºÏÍêÒ»¶Î
+	if (stickCount == 0)return true; // æ‰€æœ‰æœ¨æ£’éƒ½ç»„åˆå®Œæ¯•
+	if (currLen == target)return dfs(stickCount - 1, 0, 0, target); // ç»„åˆå®Œä¸€æ®µ
 
-	int fail = -1;//¼ÇÂ¼Ê§°ÜµÄ³¢ÊÔ
+	int fail = -1;//è®°å½•å¤±è´¥çš„å°è¯•
 	for (int i = idx; i < n; i++) {
-		if (usd[i] || l[i] + currLen > target || l[i] == fail)continue;//Ìø¹ıÊ§°Ü
+		if (usd[i] || l[i] + currLen > target || l[i] == fail)continue;//è·³è¿‡å¤±è´¥
 		usd[i] = true;
-		if (dfs(stickCount, currLen + l[i], i + 1, target))return true; // ¼ÌĞøÆ´µ±Ç°ÕâÒ»¸ùÄ¾¹÷
+		if (dfs(stickCount, currLen + l[i], i + 1, target))return true; // ç»§ç»­æ‹¼å½“å‰è¿™ä¸€æ ¹æœ¨æ£
 		usd[i] = false;
 		fail = l[i];
-		if (currLen == 0 || currLen + l[i] == target)break; //Èç¹ûµÚÒ»¸öÎ»ÖÃ²»³É¹¦ÔòËùÓĞ²»³É¹¦orµ±Ç°Ä¾¹÷ÕıºÃÆ´Âúµ«ÊÇÊ§°Ü
+		if (currLen == 0 || currLen + l[i] == target)break; //å¦‚æœç¬¬ä¸€ä¸ªä½ç½®ä¸æˆåŠŸåˆ™æ‰€æœ‰ä¸æˆåŠŸorå½“å‰æœ¨æ£æ­£å¥½æ‹¼æ»¡ä½†æ˜¯å¤±è´¥
 	}
 	return false;
 }
@@ -41,11 +41,11 @@ int main() {
 		sum += l[i];
 		maxL = max(maxL, l[i]);
 	}
-	sort(l.begin(), l.end(),greater<>());// ½µĞòÅÅÁĞ
+	sort(l.begin(), l.end(),greater<>());// é™åºæ’åˆ—
 	int L = maxL;
-	for (; L < sum; L++) {
-		if (sum % L != 0)continue; // Ä¾¹÷³¤¶È±ØĞëÊÇ×Ü³¤µÄÒò×Ó
-		if (dfs(sum/L, 0, 0, L))break; // ×éºÏ³É¹¦
+	for (; L <= sum; L++) {
+		if (sum % L != 0)continue; // æœ¨æ£é•¿åº¦å¿…é¡»æ˜¯æ€»é•¿çš„å› å­
+		if (dfs(sum/L, 0, 0, L))break; // ç»„åˆæˆåŠŸ
 	}
 	cout << L;
 	return 0;

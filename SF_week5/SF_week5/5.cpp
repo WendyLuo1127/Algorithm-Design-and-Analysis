@@ -1,7 +1,11 @@
-//¼ÆËãËùÓĞ×Ö·û´®ÓëÄ¿±ê´®µÄ¾àÀëÊÇ·ñĞ¡ÓÚÄ¿±ê´ÎÊı¡ª¡ª>¶¯Ì¬¹æ»®
+ï»¿//è®¡ç®—æ‰€æœ‰å­—ç¬¦ä¸²ä¸ç›®æ ‡ä¸²çš„è·ç¦»æ˜¯å¦å°äºç›®æ ‡æ¬¡æ•°â€”â€”>åŠ¨æ€è§„åˆ’
 #include<bits/stdc++.h>
 using namespace std;
 
+// æ ‡å‡†çš„ç¼–è¾‘è·ç¦»ï¼ˆLevenshtein Distanceï¼‰DPç®—æ³•
+//æ’å…¥ï¼ˆdp[i][j-1] + 1ï¼‰
+//åˆ é™¤ï¼ˆdp[i - 1][j] + 1ï¼‰
+//æ›¿æ¢ï¼ˆdp[i - 1][j - 1] + 1ï¼‰
 bool edit(string s, string t, int num) {
 	int m = s.size(), n = t.size();
 	vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));

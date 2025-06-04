@@ -15,22 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="1_DoublePointer.cpp">
+    <ClCompile Include="1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="1_violence.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="jump_game.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="jump_game2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Valid Palindrome II.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="largestMultipleOfThree.cpp">
+    <ClCompile Include="2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
